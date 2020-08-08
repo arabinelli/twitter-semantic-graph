@@ -7,7 +7,7 @@ class TwitterClient:
         pass
 
     def _authenticate(self):
-        """Handles Twitter authentication flow
+        """Handles Twitter authentication flow and creates an API object
         """
         self._read_keys_from_env_variables()
         auth = tw.OAuthHandler(
@@ -21,7 +21,7 @@ class TwitterClient:
             Stores the result in the self.twitter_keys dictionary.
 
         Raises:
-            ValueError: Lists the environmental variables that couldn't be loaded
+            ValueError: String including the list of the environmental variables that couldn't be loaded
         """
         self.twitter_keys = dict()
         empty_keys = []
@@ -38,3 +38,4 @@ class TwitterClient:
         if len(empty_keys) > 0:
             error_text = "Couldn't load the following keys: " + ", ".join(empty_keys)
             raise ValueError(error_text)
+    

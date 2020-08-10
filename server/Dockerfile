@@ -1,4 +1,5 @@
-FROM python:3.8-slim-buster
+#FROM python:3.8-slim-buster
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
 RUN apt upgrade -y && apt install bash
 
@@ -9,4 +10,4 @@ WORKDIR /server
 ADD ./src .
 COPY ./test ./test
 
-CMD ["/bin/bash"]
+#CMD ["uvicorn app:app --reload"]

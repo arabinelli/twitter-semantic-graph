@@ -1,6 +1,6 @@
 import pytest
 
-from twitter.client import TwitterClient
+from connectors.twitter import TwitterClient
 
 twitter_client = TwitterClient()
 

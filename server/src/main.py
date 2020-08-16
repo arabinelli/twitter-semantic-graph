@@ -2,8 +2,8 @@ from typing import Optional, List
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from twitter.client import TwitterClient
-from network.builder import NetworkBuilder
+from connectors.twitter import TwitterClient
+from logic.network import NetworkBuilder
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()

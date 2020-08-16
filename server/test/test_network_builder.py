@@ -1,5 +1,5 @@
 import pandas as pd
-from network.builder import NetworkBuilder
+from logic.network import NetworkBuilder
 
 network_builder = NetworkBuilder()
 

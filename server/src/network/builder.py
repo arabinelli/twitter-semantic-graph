@@ -1,4 +1,4 @@
-import re, collections
+import re, collections, math
 
 import networkx as nx
 import pandas as pd
@@ -88,7 +88,7 @@ class NetworkBuilder:
                     raise Exception(
                         f'The aggregation mode "{attribute["aggregation_mode"]}" is not yet supported'
                     )
-                G.nodes[i][attribute["name"]] = value
+                self.G.nodes[i][attribute["name"]] = value
 
     def _extract_from_corpus(self, by="hashtag"):
         """[summary]
@@ -98,7 +98,7 @@ class NetworkBuilder:
         """
         if by == "hashtag":
             self.data["keyword"] = self.data.corpus.apply(
-                lambda x: [word for word in x if word.startswith("#")]
+                lambda x: [word.lower() for word in x if word.startswith("#")]
             )
 
         else:
@@ -107,7 +107,9 @@ class NetworkBuilder:
     def _calculate_network_metrics(self):
         raise NotImplementedError
 
-    def build_graph(self, filter_term_frequency=0):
+    def build_graph(
+        self, filter_node_frequency=0, filter_link_frequency=0, keywords_to_remove=[]
+    ):
         """Builds the graph
 
         Args:
@@ -121,9 +123,10 @@ class NetworkBuilder:
             pd.DataFrame(self.data.keyword.values.tolist()).stack()
         )
         one_hot_encoded_df = one_hot_encoded_df.sum(axis=0, level=0)
-        one_hot_encoded_df = one_hot_encoded_df.loc[
-            :, one_hot_encoded_df.sum(axis=0) > filter_term_frequency
-        ]
+        # one_hot_encoded_df = one_hot_encoded_df.loc[
+        #     :, one_hot_encoded_df.sum(axis=0) > filter_node_frequency
+        # ]
+        one_hot_encoded_df = one_hot_encoded_df.drop(keywords_to_remove, axis=1)
         terms_frequency = one_hot_encoded_df.sum(axis=0).iteritems()
         self.labels = list(one_hot_encoded_df.columns)
         adjacency_matrix = one_hot_encoded_df.values
@@ -133,5 +136,15 @@ class NetworkBuilder:
             freq = next(terms_frequency)
             assert freq[0] == label
             self.G.nodes[i]["frequency"] = freq[1]
+            self.G.nodes[i]["size"] = 100 + 75 * math.log2(freq[1])
         self._apply_attributes(one_hot_encoded_df)
+        # links
+        edge_weights = nx.get_edge_attributes(self.G, "weight")
+        self.G.remove_edges_from(
+            (e for e, w in edge_weights.items() if w <= filter_link_frequency)
+        )
+        node_frequencies = nx.get_node_attributes(self.G, "frequency")
+        self.G.remove_nodes_from(
+            (n for n, f in node_frequencies.items() if f <= filter_node_frequency)
+        )
         return json_graph.node_link_data(self.G)

@@ -1,17 +1,13 @@
-# Dockerfile adapted from https://www.robinwieruch.de/docker-create-react-app-development
-# Docker Image which is used as foundation to create
-# a custom Docker Image with this Dockerfile
-FROM node:10
+# Dockerfile adapted from https://mherman.org/blog/dockerizing-a-react-app/
+FROM node:13.12.0-alpine
 
-# A directory within the virtualized Docker environment
-# Becomes more relevant when using Docker Compose later
 WORKDIR /usr/src/app
 
 # Copies package.json and package-lock.json to Docker environment
 COPY package*.json ./
 
 # Installs all node packages
-RUN npm install
+RUN npm install && npm audit fix
 
 # Copies everything over to Docker environment
 COPY . .
@@ -20,4 +16,4 @@ COPY . .
 EXPOSE 3000
 
 # Finally runs the application
-CMD [ "npm", "start" ]
+CMD [ "npm","run", "start" ]

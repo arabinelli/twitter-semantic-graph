@@ -50,6 +50,7 @@ class TwitterClient:
         filter_retweets=False,
         languages=[],
         full_tweet=True,
+        tweets_limit=500,
     ):
         """Search Twitter for tweets containing one or more hashtags provided. 
 
@@ -60,6 +61,7 @@ class TwitterClient:
             filter_retweets (bool, optional): Should retweets be omitted? Defaults to False.
             languages (list, optional): Limit the research to one or more given languages. Defaults to all languages.
             full_tweet (bool, optional): Should full tweets (opposed to truncating to 140 chars) be returned? Defaults to True.
+            tweets_limit (int, optional): The maximum number of tweets to be retreived, useful for performance reasons. Defaults to 500
 
         Returns:
             tw.tweets: iterator of tweets
@@ -75,7 +77,7 @@ class TwitterClient:
             self.api.search, q=query, since=date_from, tweet_mode=tweet_mode
         )
 
-        return tweets.items(), full_tweet
+        return tweets.items(tweets_limit), full_tweet
 
     def _build_query(
         self, hashtags: list, filter_retweets=False, languages=[],

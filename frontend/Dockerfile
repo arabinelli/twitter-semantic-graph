@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Installs all node packages
+RUN npm install -g npm
 RUN npm install && npm audit fix
 
 # Copies everything over to Docker environment

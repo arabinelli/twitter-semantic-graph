@@ -123,9 +123,6 @@ class NetworkBuilder:
             pd.DataFrame(self.data.keyword.values.tolist()).stack()
         )
         one_hot_encoded_df = one_hot_encoded_df.sum(axis=0, level=0)
-        # one_hot_encoded_df = one_hot_encoded_df.loc[
-        #     :, one_hot_encoded_df.sum(axis=0) > filter_node_frequency
-        # ]
         one_hot_encoded_df = one_hot_encoded_df.drop(keywords_to_remove, axis=1)
         terms_frequency = one_hot_encoded_df.sum(axis=0).iteritems()
         self.labels = list(one_hot_encoded_df.columns)
@@ -136,9 +133,9 @@ class NetworkBuilder:
             freq = next(terms_frequency)
             assert freq[0] == label
             self.G.nodes[i]["frequency"] = freq[1]
-            self.G.nodes[i]["size"] = 100 + 75 * math.log2(freq[1])
+            self.G.nodes[i]["size"] = freq[1]
         self._apply_attributes(one_hot_encoded_df)
-        # links
+        self.G.remove_edges_from(nx.selfloop_edges(self.G))
         edge_weights = nx.get_edge_attributes(self.G, "weight")
         self.G.remove_edges_from(
             (e for e, w in edge_weights.items() if w <= filter_link_frequency)
@@ -147,4 +144,8 @@ class NetworkBuilder:
         self.G.remove_nodes_from(
             (n for n, f in node_frequencies.items() if f <= filter_node_frequency)
         )
+        self.G = nx.relabel_nodes(
+            self.G, dict(zip(self.G, range(0, self.G.number_of_nodes())))
+        )
         return json_graph.node_link_data(self.G)
+

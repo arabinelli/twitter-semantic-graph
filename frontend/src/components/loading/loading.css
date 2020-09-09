@@ -1,0 +1,14 @@
+.loading {
+  color: #a8dadc;
+  font-weight: 600;
+  position: relative;
+  height: 50vh;
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  padding-top: 30vh;
+}
+
+p {
+  margin-top: 15px;
+}

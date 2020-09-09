@@ -3,12 +3,20 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 from connectors.twitter import TwitterClient
+from connectors.redis import RedisClient
 from logic.network import NetworkBuilder
 from fastapi.middleware.cors import CORSMiddleware
 
+redis_client = RedisClient()
+
 app = FastAPI()
 
-origins = ["http://localhost", "http://localhost:3000", "http://localhost:3001"]
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://0.0.0.0:3000",
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,15 +35,26 @@ class GraphRequest(BaseModel):
     filter_link_frequency: Optional[int] = 0
 
 
-def make_graph(request: GraphRequest):
+@redis_client.cache
+def get_tweets_text(hashtags, filter_retweets, languages):
     twitter_client = TwitterClient()
     tweets, full_text = twitter_client.search_tweets_by_hashtags(
-        request.hashtags,
+        hashtags, filter_retweets=filter_retweets, languages=languages,
+    )
+    print("Fetching tweets...")
+    if full_text:
+        corpus = [tweet.full_text for tweet in tweets]
+    else:
+        corpus = [tweet.text for tweet in tweets]
+    return corpus
+
+
+def make_graph(request: GraphRequest):
+    corpus = get_tweets_text(
+        hashtags=request.hashtags,
         filter_retweets=request.filter_retweets,
         languages=request.languages,
     )
-    print("Fetching tweets...")
-    corpus = [tweet.full_text for tweet in tweets]
     print("Building the graph...")
     network_builder = NetworkBuilder()
     network_builder.load_clean_corpus(corpus)

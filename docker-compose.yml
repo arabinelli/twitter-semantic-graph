@@ -28,3 +28,6 @@ services:
       - "80:80"
     env_file:
       - ./server/env_file
+
+  redis:
+    image: "redis:alpine"

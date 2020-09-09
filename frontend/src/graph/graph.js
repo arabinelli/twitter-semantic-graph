@@ -7,7 +7,7 @@ import "./graph.css";
 
 const NetworkViz = (props) => {
   const [hasError, setErrors] = useState(false);
-  const [dataHasLoaded, setDataLoaded] = useState(false);
+  // const [dataHasLoaded, setDataLoaded] = useState(false);
   const [data, setData] = useState({ nodes: [], links: [] });
   const [highlightNodes, setHighlightNodes] = useState(new Set());
   const [highlightLinks, setHighlightLinks] = useState(new Set());
@@ -15,53 +15,6 @@ const NetworkViz = (props) => {
 
   const forceRef = useRef(null);
   const { height, width } = useWindowDimensions();
-
-  useEffect(() => {
-    const abortcontroller = new AbortController();
-    const signal = abortcontroller.signal;
-
-    async function fetchGraphData() {
-      await fetch("http://localhost/get-graph", {
-        method: "POST",
-        body: JSON.stringify({
-          hashtags: [props.hashtags],
-          languages: [props.language],
-          filter_node_frequency: 1,
-          filter_link_frequency: 1,
-        }),
-        signal: signal,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("This is your data", data);
-          data.links.forEach((link) => {
-            const a = data.nodes[link.source];
-            const b = data.nodes[link.target];
-            !a.neighbors && (a.neighbors = []);
-            !b.neighbors && (b.neighbors = []);
-            a.neighbors.push(b);
-            b.neighbors.push(a);
-
-            !a.links && (a.links = []);
-            !b.links && (b.links = []);
-            a.links.push(link);
-            b.links.push(link);
-          });
-          setData(data);
-          setDataLoaded(true);
-        })
-        .catch((err) => {
-          console.log(err);
-          setErrors(true);
-        });
-
-      return function cleanup() {
-        abortcontroller.abort();
-      };
-    }
-    console.log("Fetching!");
-    fetchGraphData();
-  }, []);
 
   useEffect(() => {
     if (forceRef.current != null) {
@@ -140,12 +93,12 @@ const NetworkViz = (props) => {
 
   return (
     <>
-      {dataHasLoaded === true ? (
+      {props.dataHasLoaded === true ? (
         <div className="network">
           <ForceGraph2D
             height={height * 0.9}
             width={width}
-            graphData={data}
+            graphData={props.data}
             nodeLabel="name"
             nodeRelSize={6}
             linkColor={(link) => {

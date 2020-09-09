@@ -4,6 +4,7 @@ import NetworkViz from "./graph/graph";
 import SplashScreen from "./components/splash/splash";
 import AppHeader from "./components/appHeader/appHeader";
 import AppDrawer from "./components/drawer/drawer";
+import fetchGraphData from "./services/fetchBaseData";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -14,13 +15,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const [formIsSubmitted, setFormIsSubmitted] = useState(0);
+  const [formIsSubmitted, setFormIsSubmitted] = useState(false);
+  const [graphData, setGraphData] = useState({ nodes: [], links: [] });
   const [typedHashtag, setTypedHashtag] = useState("");
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState("");
-  const [searchResult, setSearchResult] = useState("");
+  const [dataHasLoaded, setDataLoaded] = useState(false);
 
   const classes = useStyles();
+  let data = {};
 
   const toggleDrawer = () => {
     setMenuOpen(!isMenuOpen);
@@ -34,14 +37,18 @@ function App() {
     setTypedHashtag(event.target.value);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
+    setDataLoaded(false);
     event.preventDefault();
     console.log("In handleFormSubmit:", typedHashtag);
     console.log("In handleFormSubmit:", language);
-    setFormIsSubmitted(formIsSubmitted + 1);
+    setFormIsSubmitted(true);
     toggleDrawer();
-    // API request here
-    // set search results
+    let data = await fetchGraphData(typedHashtag, language).then((data) => {
+      return data;
+    });
+    setDataLoaded(true);
+    setGraphData(data);
   };
 
   return (
@@ -58,11 +65,7 @@ function App() {
       />
       <>
         {formIsSubmitted ? (
-          <NetworkViz
-            hashtags={typedHashtag}
-            language={language}
-            formIsSubmitted={formIsSubmitted}
-          />
+          <NetworkViz data={graphData} dataHasLoaded={dataHasLoaded} />
         ) : (
           // change props to searchResults
           <SplashScreen />

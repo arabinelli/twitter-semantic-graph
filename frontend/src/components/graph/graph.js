@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { log2, sqrt, max } from "mathjs";
+import { sqrt, max } from "mathjs";
 import ForceGraph2D from "react-force-graph-2d";
-import LoadScreen from "../components/loading/loading";
-import useWindowDimensions from "../utils/windowSize";
+import useWindowDimensions from "../../utils/windowSize";
 import "./graph.css";
 
 const NetworkViz = (props) => {
-  const [hasError, setErrors] = useState(false);
-  // const [dataHasLoaded, setDataLoaded] = useState(false);
-  const [data, setData] = useState({ nodes: [], links: [] });
   const [highlightNodes, setHighlightNodes] = useState(new Set());
   const [highlightLinks, setHighlightLinks] = useState(new Set());
   const [hoverNode, setHoverNode] = useState(null);
@@ -18,8 +14,8 @@ const NetworkViz = (props) => {
 
   useEffect(() => {
     if (forceRef.current != null) {
-      forceRef.current.d3Force("charge").strength(-300);
-      forceRef.current.d3Force("link").distance(250);
+      forceRef.current.d3Force("charge").strength(-350);
+      forceRef.current.d3Force("link").distance(300);
     }
   });
 
@@ -92,34 +88,29 @@ const NetworkViz = (props) => {
   };
 
   return (
-    <>
-      {props.dataHasLoaded === true ? (
-        <div className="network">
-          <ForceGraph2D
-            height={height * 0.9}
-            width={width}
-            graphData={props.data}
-            nodeLabel="name"
-            nodeRelSize={6}
-            linkColor={(link) => {
-              if (highlightLinks.size === 0) {
-                return "#AAAAAA40";
-              } else {
-                return highlightLinks.has(link) ? "#AAAAAA80" : "#AAAAAA20";
-              }
-            }}
-            linkWidth={(link) => (highlightLinks.has(link) ? 2 : 1)}
-            linkOpacity={0.3}
-            nodeCanvasObject={nodeObject}
-            d3AlphaMin={0.03}
-            ref={forceRef}
-            onNodeHover={handleNodeHover}
-          />
-        </div>
-      ) : (
-        <LoadScreen />
-      )}
-    </>
+    <div className="network">
+      <ForceGraph2D
+        height={height * 0.9}
+        width={width}
+        graphData={props.data}
+        nodeLabel="name"
+        nodeRelSize={6}
+        linkColor={(link) => {
+          if (highlightLinks.size === 0) {
+            return "#AAAAAA40";
+          } else {
+            return highlightLinks.has(link) ? "#AAAAAA80" : "#AAAAAA20";
+          }
+        }}
+        linkWidth={(link) => (highlightLinks.has(link) ? 2 : 1)}
+        linkOpacity={0.3}
+        linkCurvature={0.2}
+        nodeCanvasObject={nodeObject}
+        d3AlphaMin={0.03}
+        ref={forceRef}
+        onNodeHover={handleNodeHover}
+      />
+    </div>
   );
 };
 

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
-import NetworkViz from "./graph/graph";
-import SplashScreen from "./components/splash/splash";
 import AppHeader from "./components/appHeader/appHeader";
 import AppDrawer from "./components/drawer/drawer";
 import fetchGraphData from "./services/fetchBaseData";
+import MainScreen from "./mainScreen";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -23,7 +22,6 @@ function App() {
   const [dataHasLoaded, setDataLoaded] = useState(false);
 
   const classes = useStyles();
-  let data = {};
 
   const toggleDrawer = () => {
     setMenuOpen(!isMenuOpen);
@@ -63,14 +61,11 @@ function App() {
         language={language}
         handleLanguageChoice={handleLanguageChoice}
       />
-      <>
-        {formIsSubmitted ? (
-          <NetworkViz data={graphData} dataHasLoaded={dataHasLoaded} />
-        ) : (
-          // change props to searchResults
-          <SplashScreen />
-        )}
-      </>
+      <MainScreen
+        dataHasLoaded={dataHasLoaded}
+        formIsSubmitted={formIsSubmitted}
+        graphData={graphData}
+      />
     </div>
   );
 }

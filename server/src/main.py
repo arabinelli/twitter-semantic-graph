@@ -48,11 +48,11 @@ def get_tweets(hashtags, filter_retweets, languages):
     tweets, full_text = twitter_client.search_tweets_by_hashtags(
         hashtags, filter_retweets=filter_retweets, languages=languages,
     )
-    return [tweet for tweet in tweets]
+    return [tweet for tweet in tweets], full_text
 
 
 def get_tweets_text(hashtags, filter_retweets, languages):
-    tweets = get_tweets(
+    tweets, full_text = get_tweets(
         hashtags=hashtags, filter_retweets=filter_retweets, languages=languages
     )
     if full_text:
@@ -63,19 +63,31 @@ def get_tweets_text(hashtags, filter_retweets, languages):
 
 
 def get_relevant_tweets(hashtags, filter_retweets, languages, target_hashtag):
-    tweets = get_tweets(
+    tweets, full_text = get_tweets(
         hashtags=hashtags, filter_retweets=filter_retweets, languages=languages
     )
-    return [
-        {
-            "text": tweet.full_text,
-            "twitter_handle": "@" + tweet.user.screen_name,
-            "username": tweet.user.name,
-            "datetime": tweet.created_at,
-        }
-        for tweet in tweets
-        if target_hashtag.lower() in tweet.full_text.lower()
-    ]
+    if full_text:
+        return [
+            {
+                "text": tweet.full_text,
+                "twitter_handle": "@" + tweet.user.screen_name,
+                "username": tweet.user.name,
+                "datetime": tweet.created_at,
+            }
+            for tweet in tweets
+            if target_hashtag.lower() in tweet.full_text.lower()
+        ]
+    else:
+        return [
+            {
+                "text": tweet.text,
+                "twitter_handle": "@" + tweet.user.screen_name,
+                "username": tweet.user.name,
+                "datetime": tweet.created_at,
+            }
+            for tweet in tweets
+            if target_hashtag.lower() in tweet.full_text.lower()
+        ]
 
 
 def make_graph(request: GraphRequest):

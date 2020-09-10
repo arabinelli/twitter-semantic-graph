@@ -1,14 +1,15 @@
 import React, { useRef, useEffect } from "react";
 import useWindowDimensions from "../../utils/windowSize";
 import p5 from "p5";
+import "./animatedBackground.css";
 
 const AnimatedBackground = (props) => {
   var nParticles = 120;
   var particles = [];
-  var particleSize = 70;
+  var particleSize = 90;
   var maxCounter = 20;
   var lines = [];
-  var speedFactor = 0.9;
+  var speedFactor = 0.8;
 
   const { height, width } = useWindowDimensions();
 
@@ -80,8 +81,8 @@ const AnimatedBackground = (props) => {
       // use parent to render the canvas in this ref
       // (without that p5 will render the canvas outside of your component)
       p.createCanvas(width, height * 0.9);
-      p.stroke("#1d355780");
-      p.fill("#1d355790");
+      p.stroke("#a8dadc70");
+      p.fill("#a8dadc70");
 
       for (var i = 0; i < nParticles; i++) {
         particles.push(p.createParticle());
@@ -100,7 +101,7 @@ const AnimatedBackground = (props) => {
 
       for (var i = 0; i < lines.length; i++) {
         var color = p.map(lines[i][2], 0, particleSize, 0, 255);
-        p.stroke("#1d355780");
+        p.stroke("#aaaaaa20");
         p.line(lines[i][0].x, lines[i][0].y, lines[i][1].x, lines[i][1].y);
       }
     };

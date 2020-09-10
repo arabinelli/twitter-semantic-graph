@@ -1,0 +1,9 @@
+#canvas-container {
+  width: 100%;
+  text-align: center;
+}
+
+canvas {
+  position: absolute;
+  display: inline;
+}

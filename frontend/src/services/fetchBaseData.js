@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 const abortcontroller = new AbortController();
 const signal = abortcontroller.signal;
 
@@ -14,8 +13,8 @@ async function fetchGraphData(hashtags, language) {
   const payload = {
     method: "POST",
     body: JSON.stringify({
-      hashtags: [hashtags],
-      languages: [language],
+      hashtags: hashtags.split(" "),
+      languages: language.split(" "),
       filter_node_frequency: 1,
       filter_link_frequency: 1,
     }),

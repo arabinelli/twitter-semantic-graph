@@ -112,6 +112,7 @@ const NetworkViz = (props) => {
         ref={forceRef}
         onNodeHover={handleNodeHover}
         onNodeClick={props.handleNodeClick}
+        warmupTicks={10}
       />
     </div>
   );

@@ -24,9 +24,9 @@ async function fetchGraphData(hashtags, language) {
   const graphData = await fetchAPI(url, payload)
     .then((data) => {
       console.log("This is your data", data);
-      data.links.forEach((link) => {
-        const a = data.nodes[link.source];
-        const b = data.nodes[link.target];
+      data.graph_data.links.forEach((link) => {
+        const a = data.graph_data.nodes[link.source];
+        const b = data.graph_data.nodes[link.target];
         !a.neighbors && (a.neighbors = []);
         !b.neighbors && (b.neighbors = []);
         a.neighbors.push(b);

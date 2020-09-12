@@ -5,6 +5,7 @@ import pandas as pd
 
 from numpy import dot
 from networkx.readwrite import json_graph
+from networkx.algorithms.community import label_propagation_communities
 
 punctuation = "!\"$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
 
@@ -107,6 +108,16 @@ class NetworkBuilder:
     def _calculate_network_metrics(self):
         raise NotImplementedError
 
+    def _find_communities(self):
+        communities = list(label_propagation_communities(self.G))
+        multi_node_communities = [
+            community for community in communities if len(community) > 1
+        ]
+        parsed_communities = []
+        for community in multi_node_communities:
+            parsed_communities.append([self.G.nodes[i] for i in community])
+        return multi_node_communities
+
     def build_graph(
         self, filter_node_frequency=0, filter_link_frequency=0, keywords_to_remove=[]
     ):
@@ -147,5 +158,9 @@ class NetworkBuilder:
         self.G = nx.relabel_nodes(
             self.G, dict(zip(self.G, range(0, self.G.number_of_nodes())))
         )
-        return json_graph.node_link_data(self.G)
+        return {
+            "graph_data": json_graph.node_link_data(self.G),
+            "communities": self._find_communities(),
+        }
+        # return json_graph.node_link_data(self.G)
 

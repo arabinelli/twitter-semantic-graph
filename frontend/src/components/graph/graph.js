@@ -23,7 +23,7 @@ const NetworkViz = (props) => {
     (node, ctx, globalScale) => {
       const label = node.name;
       const fontSize = max(10, 3 * sqrt(node.size)) / globalScale;
-      ctx.font = highlightNodes.has(node)
+      ctx.font = highlightNodes.has(node.id)
         ? `${fontSize}px Montserrat`
         : `${fontSize}px Montserrat`;
       const textWidth = ctx.measureText(label).width;
@@ -33,7 +33,7 @@ const NetworkViz = (props) => {
       if (highlightNodes.size === 0) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
       } else {
-        ctx.fillStyle = highlightNodes.has(node)
+        ctx.fillStyle = highlightNodes.has(node.id)
           ? "rgba(0, 0, 0, 0.3)"
           : "rgba(0, 0, 0, 0)";
       }
@@ -48,7 +48,7 @@ const NetworkViz = (props) => {
       if (highlightNodes.size === 0) {
         ctx.fillStyle = "#a8dadc";
       } else {
-        ctx.fillStyle = highlightNodes.has(node) ? "#a8dadc" : "#303030";
+        ctx.fillStyle = highlightNodes.has(node.id) ? "#a8dadc" : "#303030";
       }
 
       ctx.fillText(label, node.x, node.y);
@@ -65,13 +65,13 @@ const NetworkViz = (props) => {
     highlightNodes.clear();
     highlightLinks.clear();
     if (node) {
-      highlightNodes.add(node);
+      highlightNodes.add(node.id);
       if (node.neighbors) {
-        node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor));
+        node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor.id));
         node.links.forEach((link) => highlightLinks.add(link));
       }
     }
-
+    console.log(highlightLinks);
     setHoverNode(node || null);
     updateHighlight();
   };
@@ -89,6 +89,20 @@ const NetworkViz = (props) => {
     updateHighlight();
   };
 
+  useEffect(() => {
+    highlightNodes.clear();
+    highlightLinks.clear();
+    if (props.selectedCommunity !== "") {
+      props.communities[props.selectedCommunity].forEach((id) => {
+        highlightNodes.add(id);
+        console.log(id);
+        // node.links.forEach((link) => highlightLinks.add(link));
+      });
+      // setHoverNode(node || null);
+      updateHighlight();
+    }
+  }, [props.selectedCommunity]);
+
   return (
     <div className="network">
       <ForceGraph2D
@@ -99,7 +113,14 @@ const NetworkViz = (props) => {
         nodeRelSize={6}
         linkColor={(link) => {
           if (highlightLinks.size === 0) {
-            return "#AAAAAA40";
+            if (props.selectedCommunity !== "") {
+              return highlightNodes.has(link.source.id) &&
+                highlightNodes.has(link.target.id)
+                ? "#AAAAAA80"
+                : "#AAAAAA20";
+            } else {
+              return "#AAAAAA40";
+            }
           } else {
             return highlightLinks.has(link) ? "#AAAAAA80" : "#AAAAAA20";
           }
@@ -112,6 +133,11 @@ const NetworkViz = (props) => {
         ref={forceRef}
         onNodeHover={handleNodeHover}
         onNodeClick={props.handleNodeClick}
+        onBackgroundClick={(event) => {
+          props.handleBackgroundClick(event);
+          highlightNodes.clear();
+          highlightLinks.clear();
+        }}
         warmupTicks={10}
       />
     </div>

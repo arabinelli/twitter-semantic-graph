@@ -5,6 +5,7 @@ import {
   Drawer,
   TextField,
   MenuItem,
+  Slider,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -130,6 +131,30 @@ const AppDrawer = (props) => {
           </Button>
         </div>
       </form>
+      {props.dataHasLoaded ? (
+        <div className={classes.inputFields}>
+          <Typography id="discrete-slider" gutterBottom>
+            We have identified {props.communities.length} topics
+          </Typography>
+          <Slider
+            defaultValue={0}
+            value={
+              props.selectedCommunity === ""
+                ? 0
+                : Number(props.selectedCommunity + 1)
+            }
+            aria-labelledby="discrete-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            marks
+            min={0}
+            max={props.communities.length}
+            onChange={props.handleCommunitySelectionChange}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
     </Drawer>
   );
 };

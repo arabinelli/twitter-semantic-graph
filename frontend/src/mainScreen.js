@@ -41,7 +41,10 @@ const MainScreen = (props) => {
           <div>
             <NetworkViz
               data={props.graphData}
+              communities={props.communities}
+              selectedCommunity={props.selectedCommunity}
               handleNodeClick={handleNodeClick}
+              handleBackgroundClick={props.handleBackgroundClick}
             />
             <TweetModal
               isModalOpen={isTweetModalOpen}

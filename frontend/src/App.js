@@ -4,6 +4,7 @@ import AppHeader from "./components/appHeader/appHeader";
 import AppDrawer from "./components/drawer/drawer";
 import fetchGraphData from "./services/fetchBaseData";
 import MainScreen from "./mainScreen";
+import { useGlobal, setGlobal } from "reactn";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+setGlobal({
+  inputedHashtag: "",
+  inputedLanguage: "",
+});
+
 function App() {
   const [formIsSubmitted, setFormIsSubmitted] = useState(false);
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
@@ -20,6 +26,9 @@ function App() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState("");
   const [dataHasLoaded, setDataLoaded] = useState(false);
+
+  const [inputedHashtag, setInputedHashtag] = useGlobal("inputedHashtag");
+  const [inputedLanguage, setInputedLanguage] = useGlobal("inputedLanguage");
 
   const classes = useStyles();
 
@@ -38,13 +47,14 @@ function App() {
   const handleFormSubmit = async (event) => {
     setDataLoaded(false);
     event.preventDefault();
-    console.log("In handleFormSubmit:", typedHashtag);
-    console.log("In handleFormSubmit:", language);
     setFormIsSubmitted(true);
     toggleDrawer();
+    setInputedHashtag(typedHashtag);
+    setInputedLanguage(language);
     let data = await fetchGraphData(typedHashtag, language).then((data) => {
       return data;
     });
+    console.log(inputedHashtag);
     setDataLoaded(true);
     setGraphData(data);
   };

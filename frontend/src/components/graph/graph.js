@@ -111,6 +111,7 @@ const NetworkViz = (props) => {
         d3AlphaMin={0.03}
         ref={forceRef}
         onNodeHover={handleNodeHover}
+        onNodeClick={props.handleNodeClick}
       />
     </div>
   );

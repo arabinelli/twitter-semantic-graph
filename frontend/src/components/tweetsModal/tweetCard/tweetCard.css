@@ -1,0 +1,33 @@
+p {
+  font-family: "Montserrat", sans-serif;
+  margin: 5px;
+}
+
+.user-handle {
+  color: gray;
+}
+
+.account-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.tweet {
+  font-size: 15px;
+  padding-top: 5px;
+  line-height: 1.3;
+}
+
+.datetime {
+  margin-top: 10px;
+}
+
+.card {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.75);
+  padding: 5px;
+}

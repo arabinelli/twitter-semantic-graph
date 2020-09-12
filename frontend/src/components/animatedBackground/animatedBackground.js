@@ -7,7 +7,7 @@ const AnimatedBackground = (props) => {
   var nParticles = 120;
   var particles = [];
   var particleSize = 90;
-  var maxCounter = 20;
+  var maxCounter = 40;
   var lines = [];
   var speedFactor = 0.8;
 
@@ -88,7 +88,6 @@ const AnimatedBackground = (props) => {
         particles.push(p.createParticle());
       }
     };
-    console.log(particles);
 
     p.draw = () => {
       p.background("#0a131f");

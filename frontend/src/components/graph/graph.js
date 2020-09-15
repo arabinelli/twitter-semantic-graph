@@ -97,7 +97,6 @@ const NetworkViz = (props) => {
     if (props.selectedCommunity !== "") {
       props.communities[props.selectedCommunity].forEach((id) => {
         highlightNodes.add(id);
-        console.log(id);
         // node.links.forEach((link) => highlightLinks.add(link));
       });
       // setHoverNode(node || null);
@@ -105,7 +104,6 @@ const NetworkViz = (props) => {
         return highlightNodes.has(node.id) ? true : false;
       });
     } else {
-      console.log("I should be here!");
       forceRef.current.centerAt(0, 0, 400);
       forceRef.current.zoom(0.3, 400);
     }

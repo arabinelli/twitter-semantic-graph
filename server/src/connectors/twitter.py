@@ -67,6 +67,7 @@ class TwitterClient:
             tw.tweets: iterator of tweets
             full_tweet: boolean specifying if full tweets were retreived
         """
+        languages = languages if languages != None else []
         query = self._build_query(
             hashtags=hashtags, filter_retweets=filter_retweets, languages=languages
         )

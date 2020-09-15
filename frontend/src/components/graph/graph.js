@@ -104,8 +104,8 @@ const NetworkViz = (props) => {
         return highlightNodes.has(node.id) ? true : false;
       });
     } else {
-      forceRef.current.centerAt(0, 0, 400);
-      forceRef.current.zoom(0.3, 400);
+      forceRef.current.centerAt(0, 0, 900);
+      forceRef.current.zoom(0.45, 900);
     }
     updateHighlight();
   }, [props.selectedCommunity]);

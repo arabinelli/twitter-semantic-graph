@@ -12,7 +12,12 @@ const TweetModal = (props) => {
     <>
       <div className={showHideClassName} onClick={props.handleBackgroundClick}>
         {props.hasDataLoaded ? (
-          <section className="tweet-modal-main">
+          <div
+            className="tweet-modal-main"
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
             <div className="tweet-modal-main header">
               <p className="modal-header">
                 Tweets for '{props.selectedHashtag}'
@@ -30,7 +35,7 @@ const TweetModal = (props) => {
                 );
               })}
             </div>
-          </section>
+          </div>
         ) : (
           <div className="loading-tweets">
             <Ring color="#a8dadc" size={50} />

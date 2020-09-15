@@ -37,14 +37,13 @@ const MainScreen = (props) => {
     newValue === 0
       ? setSelectedCommunity("")
       : setSelectedCommunity(Number(newValue - 1));
-    console.log(selectedCommunity);
   };
 
   const handleGraphBackgroundClick = (event) => {
     setSelectedCommunity("");
   };
 
-  const handleTweetModalBackgroundClick = () => {
+  const handleTweetModalBackgroundClick = (event) => {
     setTweetModalOpen(false);
   };
 

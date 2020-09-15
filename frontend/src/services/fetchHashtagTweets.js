@@ -10,13 +10,18 @@ async function fetchHashtagTweets(hashtags, language, target_hashtag) {
   //   const [data, setData] = useState({ nodes: [], links: [] });
   //   const [hasError, setErrors] = useState(false);
   const url = "http://localhost/get-tweets-for-hashtag";
+  const requestBody = {
+    hashtags: hashtags.split(" "),
+    target_hashtag: target_hashtag,
+  };
+
+  if (language != "") {
+    requestBody["languages"] = language.split(" ");
+  }
+
   const payload = {
     method: "POST",
-    body: JSON.stringify({
-      hashtags: hashtags.split(" "),
-      languages: language.split(" "),
-      target_hashtag: target_hashtag,
-    }),
+    body: JSON.stringify(requestBody),
     signal: signal,
   };
 

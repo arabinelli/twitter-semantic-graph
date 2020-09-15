@@ -4,6 +4,7 @@ import SplashScreen from "./components/splash/splash";
 import LoadScreen from "./components/loading/loading";
 import { useState, useGlobal } from "reactn";
 import TweetModal from "./components/tweetsModal/tweetsModal";
+import TopicController from "./components/topicController/topicController";
 import fetchHashtagTweets from "./services/fetchHashtagTweets";
 
 const MainScreen = (props) => {
@@ -11,6 +12,7 @@ const MainScreen = (props) => {
   const [hasDataLoaded, setDataLoaded] = useState(false);
   const [tweetsData, setTweetsData] = useState("");
   const [selectedHashtag, setSelectedHashtag] = useState("");
+  const [selectedCommunity, setSelectedCommunity] = useState("");
 
   const [inputedHashtag] = useGlobal("inputedHashtag");
   const [inputedLanguage] = useGlobal("inputedLanguage");
@@ -30,8 +32,47 @@ const MainScreen = (props) => {
     setDataLoaded(true);
   };
 
+  const handleCommunitySelectionChange = (event, newValue) => {
+    console.log(newValue);
+    newValue === 0
+      ? setSelectedCommunity("")
+      : setSelectedCommunity(Number(newValue - 1));
+    console.log(selectedCommunity);
+  };
+
+  const handleGraphBackgroundClick = (event) => {
+    setSelectedCommunity("");
+  };
+
   const handleTweetModalBackgroundClick = () => {
     setTweetModalOpen(false);
+  };
+
+  const setNewCommunityValue = (delta) => {
+    if (selectedCommunity === "") {
+      if (delta === 1) {
+        setSelectedCommunity(0);
+      } else if (delta === -1) {
+        setSelectedCommunity(props.communities.length - 1);
+      }
+    } else if ((selectedCommunity === 0) & (delta === -1)) {
+      setSelectedCommunity("");
+    } else if (
+      (selectedCommunity === props.communities.length - 1) &
+      (delta === 1)
+    ) {
+      setSelectedCommunity("");
+    } else {
+      setSelectedCommunity(selectedCommunity + delta);
+    }
+  };
+
+  const handlePreviousCommunity = () => {
+    setNewCommunityValue(-1);
+  };
+
+  const handleNextCommunity = () => {
+    setNewCommunityValue(1);
   };
 
   return (
@@ -42,9 +83,9 @@ const MainScreen = (props) => {
             <NetworkViz
               data={props.graphData}
               communities={props.communities}
-              selectedCommunity={props.selectedCommunity}
+              selectedCommunity={selectedCommunity}
               handleNodeClick={handleNodeClick}
-              handleBackgroundClick={props.handleBackgroundClick}
+              handleBackgroundClick={handleGraphBackgroundClick}
             />
             <TweetModal
               isModalOpen={isTweetModalOpen}
@@ -52,6 +93,13 @@ const MainScreen = (props) => {
               tweets={tweetsData}
               hasDataLoaded={hasDataLoaded}
               selectedHashtag={selectedHashtag}
+            />
+            <TopicController
+              communities={props.communities}
+              handleCommunitySelectionChange={handleCommunitySelectionChange}
+              selectedCommunity={selectedCommunity}
+              handlePreviousCommunity={handlePreviousCommunity}
+              handleNextCommunity={handleNextCommunity}
             />
           </div>
         ) : (

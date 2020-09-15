@@ -29,7 +29,7 @@ function App() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState("");
   const [dataHasLoaded, setDataLoaded] = useState(false);
-  const [selectedCommunity, setSelectedCommunity] = useState("");
+  // const [selectedCommunity, setSelectedCommunity] = useState("");
 
   const [inputedHashtag, setInputedHashtag] = useGlobal("inputedHashtag");
   const [inputedLanguage, setInputedLanguage] = useGlobal("inputedLanguage");
@@ -48,18 +48,6 @@ function App() {
     setTypedHashtag(event.target.value);
   };
 
-  const handleGraphBackgroundClick = (event) => {
-    setSelectedCommunity("");
-  };
-
-  const handleCommunitySelectionChange = (event, newValue) => {
-    console.log(newValue);
-    newValue === 0
-      ? setSelectedCommunity("")
-      : setSelectedCommunity(Number(newValue - 1));
-    console.log(selectedCommunity);
-  };
-
   const handleFormSubmit = async (event) => {
     setDataLoaded(false);
     event.preventDefault();
@@ -70,7 +58,6 @@ function App() {
     let data = await fetchGraphData(typedHashtag, language).then((data) => {
       return data;
     });
-    console.log(data.communities);
     setGraphData(data);
     setDataLoaded(true);
   };
@@ -86,18 +73,12 @@ function App() {
         handleHashtagChange={handleHashtagChange}
         language={language}
         handleLanguageChoice={handleLanguageChoice}
-        dataHasLoaded={dataHasLoaded}
-        communities={graphData.communities}
-        handleCommunitySelectionChange={handleCommunitySelectionChange}
-        selectedCommunity={selectedCommunity}
       />
       <MainScreen
         dataHasLoaded={dataHasLoaded}
         formIsSubmitted={formIsSubmitted}
         graphData={graphData.graph_data}
         communities={graphData.communities}
-        selectedCommunity={selectedCommunity}
-        handleBackgroundClick={handleGraphBackgroundClick}
       />
     </div>
   );

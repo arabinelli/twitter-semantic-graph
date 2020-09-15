@@ -62,18 +62,20 @@ const NetworkViz = (props) => {
   };
 
   const handleNodeHover = (node) => {
-    highlightNodes.clear();
-    highlightLinks.clear();
-    if (node) {
-      highlightNodes.add(node.id);
-      if (node.neighbors) {
-        node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor.id));
-        node.links.forEach((link) => highlightLinks.add(link));
+    if (props.selectedCommunity === "") {
+      highlightNodes.clear();
+      highlightLinks.clear();
+      if (node) {
+        highlightNodes.add(node.id);
+        if (node.neighbors) {
+          node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor.id));
+          node.links.forEach((link) => highlightLinks.add(link));
+        }
       }
+      console.log(highlightLinks);
+      setHoverNode(node || null);
+      updateHighlight();
     }
-    console.log(highlightLinks);
-    setHoverNode(node || null);
-    updateHighlight();
   };
 
   const handleLinkHover = (link) => {
@@ -99,8 +101,15 @@ const NetworkViz = (props) => {
         // node.links.forEach((link) => highlightLinks.add(link));
       });
       // setHoverNode(node || null);
-      updateHighlight();
+      forceRef.current.zoomToFit(600, 100, (node) => {
+        return highlightNodes.has(node.id) ? true : false;
+      });
+    } else {
+      console.log("I should be here!");
+      forceRef.current.centerAt(0, 0, 400);
+      forceRef.current.zoom(0.3, 400);
     }
+    updateHighlight();
   }, [props.selectedCommunity]);
 
   return (

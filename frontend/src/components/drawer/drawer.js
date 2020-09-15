@@ -29,11 +29,14 @@ const AppDrawer = (props) => {
       "& .MuiTextField-root": {
         width: "18vw",
       },
-      "& .MuiButton-root": {
+      "& .MuiButton-contained": {
         backgroundColor: "#d10019",
+        "& .MuiButton-label": {
+          color: "#f1faee",
+        },
       },
-      "& .MuiButton-label": {
-        color: "#f1faee",
+      "& .Mui-disabled": {
+        backgroundColor: "#00000026",
       },
     },
     drawerPaper: {
@@ -42,7 +45,7 @@ const AppDrawer = (props) => {
     },
     inputFields: {
       margin: theme.spacing(2),
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(2),
     },
     drawerTitle: {
       margin: theme.spacing(2),
@@ -101,6 +104,7 @@ const AppDrawer = (props) => {
       >
         <div className={classes.inputFields}>
           <TextField
+            required
             id="standard-basic"
             label="Hashtags"
             multiline
@@ -125,7 +129,16 @@ const AppDrawer = (props) => {
           </TextField>
         </div>
         <div className={classes.inputFields}>
-          <Button variant="contained" type="submit">
+          <Button
+            className={
+              props.typedHashtag === ""
+                ? classes.drawer["& .Mui-disabled"]
+                : classes.drawer.button
+            }
+            variant="contained"
+            type="submit"
+            disabled={props.typedHashtag === "" ? true : false}
+          >
             Get Graph!
           </Button>
         </div>

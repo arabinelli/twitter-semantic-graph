@@ -1,7 +1,7 @@
 #FROM python:3.8-slim-buster
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim
 
-RUN apt upgrade -y && apt install bash
+#RUN apt upgrade -y && apt install bash
 
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt

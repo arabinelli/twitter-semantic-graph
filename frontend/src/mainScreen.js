@@ -16,6 +16,7 @@ const MainScreen = (props) => {
 
   const [inputedHashtag] = useGlobal("inputedHashtag");
   const [inputedLanguage] = useGlobal("inputedLanguage");
+  const [hasError, setError] = useGlobal("hasError");
 
   const handleNodeClick = async (node, event) => {
     setDataLoaded(false);
@@ -24,7 +25,8 @@ const MainScreen = (props) => {
     let data = await fetchHashtagTweets(
       inputedHashtag,
       inputedLanguage,
-      node.name
+      node.name,
+      setError
     ).then((data) => {
       return data;
     });

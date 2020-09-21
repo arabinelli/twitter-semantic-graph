@@ -7,7 +7,7 @@ from numpy import dot
 from networkx.readwrite import json_graph
 from networkx.algorithms.community import label_propagation_communities
 
-punctuation = "!\"$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+punctuation = "!\"$%&'()*+,-./:;<=>?@[\\]^`{|}~"
 
 
 class NetworkBuilder:

@@ -17,6 +17,7 @@
     "react-force-graph-2d": "^1.17.4",
     "react-scripts": "^3.4.3",
     "react-spinners-css": "^1.2.2",
+    "react-twitter-embed": "^3.0.3",
     "reactn": "^2.2.7"
   },
   "scripts": {

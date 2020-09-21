@@ -28,7 +28,7 @@ const NetworkViz = (props) => {
         : `${fontSize}px Montserrat`;
       const textWidth = ctx.measureText(label).width;
       const bckgDimensions = [textWidth, fontSize].map(
-        (n) => n + fontSize * 0.2
+        (n) => n + fontSize * 0.5
       ); // some padding
       if (highlightNodes.size === 0) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.3)";

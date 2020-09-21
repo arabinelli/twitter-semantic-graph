@@ -6,15 +6,13 @@ const fetchAPI = async (url, payload) => {
   return response.json();
 };
 
-async function fetchGraphData(hashtags, language) {
-  //   const [data, setData] = useState({ nodes: [], links: [] });
-  //   const [hasError, setErrors] = useState(false);
+async function fetchGraphData(hashtags, language, setError) {
   const url = "http://localhost/get-graph";
   const requestBody = {
     hashtags: hashtags.split(" "),
   };
 
-  if (language != "") {
+  if (language !== "") {
     requestBody["languages"] = language.split(" ");
   }
   if (true) {
@@ -45,11 +43,14 @@ async function fetchGraphData(hashtags, language) {
         a.links.push(link);
         b.links.push(link);
       });
+      data.communities.sort((a, b) => {
+        return b.length - a.length;
+      });
       return data;
     })
     .catch((err) => {
       console.log(err);
-      //   setErrors(true);
+      setError(true);
     });
   return graphData;
 }

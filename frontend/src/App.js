@@ -4,6 +4,8 @@ import AppHeader from "./components/appHeader/appHeader";
 import AppDrawer from "./components/drawer/drawer";
 import fetchGraphData from "./services/fetchBaseData";
 import MainScreen from "./mainScreen";
+import ErrorScreen from "./components/errorScreen/errorScreen";
+
 import { useGlobal, setGlobal } from "reactn";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 setGlobal({
   inputedHashtag: "",
   inputedLanguage: "",
+  hasError: false,
 });
 
 function App() {
@@ -33,6 +36,7 @@ function App() {
 
   const [inputedHashtag, setInputedHashtag] = useGlobal("inputedHashtag");
   const [inputedLanguage, setInputedLanguage] = useGlobal("inputedLanguage");
+  const [hasError, setError] = useGlobal("hasError");
 
   const classes = useStyles();
 
@@ -55,9 +59,11 @@ function App() {
     toggleDrawer();
     setInputedHashtag(typedHashtag);
     setInputedLanguage(language);
-    let data = await fetchGraphData(typedHashtag, language).then((data) => {
-      return data;
-    });
+    let data = await fetchGraphData(typedHashtag, language, setError).then(
+      (data) => {
+        return data;
+      }
+    );
     setGraphData(data);
     setDataLoaded(true);
   };
@@ -74,12 +80,16 @@ function App() {
         language={language}
         handleLanguageChoice={handleLanguageChoice}
       />
-      <MainScreen
-        dataHasLoaded={dataHasLoaded}
-        formIsSubmitted={formIsSubmitted}
-        graphData={graphData.graph_data}
-        communities={graphData.communities}
-      />
+      {hasError ? (
+        <ErrorScreen />
+      ) : (
+        <MainScreen
+          dataHasLoaded={dataHasLoaded}
+          formIsSubmitted={formIsSubmitted}
+          graphData={graphData.graph_data}
+          communities={graphData.communities}
+        />
+      )}
     </div>
   );
 }

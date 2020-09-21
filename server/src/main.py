@@ -69,6 +69,7 @@ def get_relevant_tweets(hashtags, filter_retweets, languages, target_hashtag):
     if full_text:
         return [
             {
+                "key": tweet.id,
                 "text": tweet.full_text,
                 "twitter_handle": "@" + tweet.user.screen_name,
                 "username": tweet.user.name,
@@ -80,6 +81,7 @@ def get_relevant_tweets(hashtags, filter_retweets, languages, target_hashtag):
     else:
         return [
             {
+                "key": tweet.id,
                 "text": tweet.text,
                 "twitter_handle": "@" + tweet.user.screen_name,
                 "username": tweet.user.name,
@@ -123,3 +125,4 @@ async def api_get_tweets(request: TweetsRequest):
         target_hashtag=request.target_hashtag,
     )
     return tweets
+

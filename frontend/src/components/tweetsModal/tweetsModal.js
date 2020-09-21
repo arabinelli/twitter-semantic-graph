@@ -2,6 +2,7 @@ import React from "react";
 import "./tweetsModal.css";
 import TweetCard from "./tweetCard/tweetCard";
 import { Ring } from "react-spinners-css";
+import { TwitterTweetEmbed } from "react-twitter-embed";
 
 const TweetModal = (props) => {
   const showHideClassName = props.isModalOpen
@@ -26,6 +27,7 @@ const TweetModal = (props) => {
             <div className="tweet-modal-main body">
               {props.tweets.map((item) => {
                 return (
+                  // <TwitterTweetEmbed tweetId={String(item.key)} />
                   <TweetCard
                     accountName={item.username}
                     accountHandle={item.userhandle}

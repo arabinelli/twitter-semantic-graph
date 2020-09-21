@@ -6,7 +6,12 @@ const fetchAPI = async (url, payload) => {
   return response.json();
 };
 
-async function fetchHashtagTweets(hashtags, language, target_hashtag) {
+async function fetchHashtagTweets(
+  hashtags,
+  language,
+  target_hashtag,
+  setError
+) {
   //   const [data, setData] = useState({ nodes: [], links: [] });
   //   const [hasError, setErrors] = useState(false);
   const url = "http://localhost/get-tweets-for-hashtag";
@@ -15,7 +20,7 @@ async function fetchHashtagTweets(hashtags, language, target_hashtag) {
     target_hashtag: target_hashtag,
   };
 
-  if (language != "") {
+  if (language !== "") {
     requestBody["languages"] = language.split(" ");
   }
 
@@ -32,7 +37,7 @@ async function fetchHashtagTweets(hashtags, language, target_hashtag) {
     })
     .catch((err) => {
       console.log(err);
-      //   setErrors(true);
+      setError(true);
     });
   return tweetsData;
 }

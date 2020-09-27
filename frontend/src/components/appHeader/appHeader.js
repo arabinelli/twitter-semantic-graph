@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
 const AppHeader = (props) => {
   const classes = useStyles();
 
+  const handleGetInTouch = () => {
+    const url = "https://github.com/arabinelli";
+    window.open(url, "_blank");
+  };
+
   return (
     <AppBar position="relative" className={classes.appBar}>
       <Toolbar>
@@ -47,7 +52,9 @@ const AppHeader = (props) => {
         <Typography variant="h5" className={classes.title}>
           Twitter Hashtag Mapper
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit" onClick={handleGetInTouch}>
+          Get in touch!
+        </Button>
       </Toolbar>
     </AppBar>
   );

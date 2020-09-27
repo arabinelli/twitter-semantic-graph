@@ -1,3 +1,4 @@
 .vscode
-server/
-frontend/
+twitter-semantic-graph-frontend/
+twitter-semantic-graph-backend/
+.DS_Store

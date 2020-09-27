@@ -4,7 +4,8 @@ services:
   frontend:
     container_name: frontend
     build:
-      dockerfile: ./frontend/Dockerfile
+      context: ./twitter-semantic-graph-frontend
+      dockerfile: Dockerfile
     # volumes:
     #   - ./frontend:/usr/src/app
     ports:
@@ -17,7 +18,7 @@ services:
     restart: always
     container_name: hashtag-mapper-backend
     build:
-      context: ./server
+      context: ./twitter-semantic-graph-backend
       dockerfile: Dockerfile
     # volumes:
     #   - ./server/src:/server/
@@ -26,7 +27,7 @@ services:
     ports:
       - "80:80"
     env_file:
-      - ./server/env_file
+      - ./twitter-semantic-graph-backend/env_file
 
   redis:
     image: "redis:alpine"

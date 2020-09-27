@@ -19,14 +19,17 @@ A deployed version of this app is coming soon!
 ## Run it locally
 
 1. Make sure you have Docker and Docker-compose installed.
-2. Obtain the `ACCESS_TOKEN_KEY`, `ACCESS_TOKEN_SECRET`, `CONSUMER_KEY`, `CONSUMER_SECRET` from Twitter and save them in the `server/env_file` file. The file should be formatted with one entry per line, encoded in this format: `ENVIRONMENTAL_VAR=ABCDEFG12345`
-3. Move to the repo root directory and run `docker-compose build && docker-compose up`
+2. Clone the frontend and backend repositories:
+   1. `git clone https://github.com/arabinelli/twitter-semantic-graph-frontend.git`
+   2. `git clone https://github.com/arabinelli/twitter-semantic-graph-backend.git`
+3. Obtain the `ACCESS_TOKEN_KEY`, `ACCESS_TOKEN_SECRET`, `CONSUMER_KEY`, `CONSUMER_SECRET` from Twitter and save them in the `server/env_file` file. The file should be formatted with one entry per line, encoded in this format: `ENVIRONMENTAL_VAR=ABCDEFG12345`
+4. Move to the repo root directory and run `docker-compose build && docker-compose up`
 
 This will serve the website at `localhost:3000`
 
 ## Built with
 
-Here are the key building blocks for this app. The extensive list can be found in the source code
+Here are the key building blocks for this app. The extensive list can be found in the [frontend](https://github.com/arabinelli/twitter-semantic-graph-frontend) and [backend](https://github.com/arabinelli/twitter-semantic-graph-backend) source codes.
 
 ### Frontend
 

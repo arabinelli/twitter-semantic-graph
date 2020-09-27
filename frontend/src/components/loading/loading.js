@@ -9,8 +9,8 @@ const LoadScreen = () => {
       <AnimatedBackground />
       <div className="loading">
         <Ring color="#a8dadc" size={120} />
-        <p>HOLD ON A SEC...</p>
-        <p>YOUR DATA IS BEING DOWNLOADED FROM TWITTER!</p>
+        <p>Hold on a sec...</p>
+        <p>Your data is being fetched from Twitter!</p>
       </div>
     </div>
   );

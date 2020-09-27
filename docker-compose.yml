@@ -4,10 +4,9 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ./frontend:/usr/src/app
+      dockerfile: ./frontend/Dockerfile
+    # volumes:
+    #   - ./frontend:/usr/src/app
     ports:
       - "3000:3000"
     expose:
@@ -20,8 +19,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    volumes:
-      - ./server/src:/server/
+    # volumes:
+    #   - ./server/src:/server/
     expose:
       - 80
     ports:

@@ -5,7 +5,7 @@ import "./topicController.css";
 // import { makeStyles } from "@material-ui/core/styles";
 
 const TopicController = (props) => {
-  const [showExtendedTopics, setShowExtendedTopics] = useState(false);
+  // const [showExtendedTopics, setShowExtendedTopics] = useState(false);
 
   // const useStyles = makeStyles((theme) => ({
   //   inputFields: {
@@ -16,17 +16,17 @@ const TopicController = (props) => {
 
   // const classes = useStyles();
 
-  const handleButtonClick = () => {
-    setShowExtendedTopics(!showExtendedTopics);
-  };
+  // const handleButtonClick = () => {
+  //   setShowExtendedTopics(!showExtendedTopics);
+  // };
 
-  return showExtendedTopics ? (
+  return props.showExtendedTopics ? (
     <div className="topic-controller">
       <div id="topic-controller-head">
         <div id="number-of-topics">
           <p>{props.communities.length} topics have been found!</p>
         </div>
-        <div id="topic-controller-close" onClick={handleButtonClick}>
+        <div id="topic-controller-close" onClick={props.handleButtonClick}>
           Close
         </div>
       </div>
@@ -49,7 +49,7 @@ const TopicController = (props) => {
     <div
       id="show-topics-button"
       className="topic-controller"
-      onClick={handleButtonClick}
+      onClick={props.handleButtonClick}
     >
       Click here to explore the topics
     </div>

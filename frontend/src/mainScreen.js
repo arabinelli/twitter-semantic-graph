@@ -13,6 +13,7 @@ const MainScreen = (props) => {
   const [tweetsData, setTweetsData] = useState("");
   const [selectedHashtag, setSelectedHashtag] = useState("");
   const [selectedCommunity, setSelectedCommunity] = useState("");
+  const [showExtendedTopics, setShowExtendedTopics] = useState(false);
 
   const [inputedHashtag] = useGlobal("inputedHashtag");
   const [inputedLanguage] = useGlobal("inputedLanguage");
@@ -43,6 +44,11 @@ const MainScreen = (props) => {
 
   const handleGraphBackgroundClick = (event) => {
     setSelectedCommunity("");
+    setShowExtendedTopics(false);
+  };
+
+  const handleTopicButtonClick = () => {
+    setShowExtendedTopics(!showExtendedTopics);
   };
 
   const handleTweetModalBackgroundClick = (event) => {
@@ -101,6 +107,8 @@ const MainScreen = (props) => {
               selectedCommunity={selectedCommunity}
               handlePreviousCommunity={handlePreviousCommunity}
               handleNextCommunity={handleNextCommunity}
+              handleButtonClick={handleTopicButtonClick}
+              showExtendedTopics={showExtendedTopics}
             />
           </div>
         ) : (

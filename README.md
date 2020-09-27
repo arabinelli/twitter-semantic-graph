@@ -8,9 +8,13 @@ Built with React + Python + Redis + Docker
 
 ## Motivation
 
-At the beginning of a new design project, it is key to get up to speed with the topic and capture the different nuances that characterize it. One key step of this process is desk research, as it allows to properly set up the design research phase.
+At the beginning of a new design project, it is key to get up to speed with the topic and capture the different nuances that characterize it. One key step of this process is desk research, as it acts as the foundation to set up the following design research phase.
 
-This tool aims at helping design teams to speed up the initial desk research phase, organizing the hashtags from Twitter in topics using community detection algorithms.
+This tool aims at helping design teams to speed up the initial desk research phase, organizing the hashtags from Twitter in topics using community detection algorithms and thus providing a quick overview with the possibility to drill down to selected sub-topics.
+
+## Use it
+
+A deployed version of this app is coming soon!
 
 ## Run it locally
 

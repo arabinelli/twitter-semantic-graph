@@ -6,13 +6,15 @@ services:
     build:
       context: ./twitter-semantic-graph-frontend
       dockerfile: Dockerfile
-    # volumes:
-    #   - ./frontend:/usr/src/app
+    volumes:
+      - ./twitter-semantic-graph-frontend:/usr/src/app
     ports:
       - "3000:3000"
     expose:
       - 3000
     stdin_open: true
+    environment:
+      - REACT_APP_BACKEND_BASE_URL=http://localhost
 
   hashtag-mapper-backend:
     restart: always
@@ -28,6 +30,9 @@ services:
       - "80:80"
     env_file:
       - ./twitter-semantic-graph-backend/env_file
+    environment:
+      - REDIS_URL=redis
+      - ORIGINS=http://localhost,http://localhost:3000,http://localhost:3001,http://0.0.0.0:3000
 
   redis:
     image: "redis:alpine"

@@ -22,8 +22,8 @@ services:
     build:
       context: ./twitter-semantic-graph-backend
       dockerfile: Dockerfile
-    # volumes:
-    #   - ./server/src:/server/
+    volumes:
+      - ./twitter-semantic-graph-backend/src:/server/src/
     expose:
       - 80
     ports:

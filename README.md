@@ -1,10 +1,11 @@
-# Twitter's Hashtag Semantic Graph Mapper
+# Semantic Hashtag Mapper
 
 A 100% unofficial tool to visualize the semantic graph of the Twitter hashtags. And mainly a good excuse to experiment with building full-stack data science products :)
 
 ![Screenshot of the app](img/screenshot_graph.png)
 
 Built with React + Python + Redis + Docker
+Disclaimer: This application is not affiliated with Twitter and accesses public data through the official API.
 
 ## Motivation
 
@@ -14,7 +15,7 @@ This tool aims at helping design teams to speed up the initial desk research pha
 
 ## Use it
 
-A deployed version of this app is coming soon!
+https://semantic-hashtag-map.herokuapp.com/
 
 ## Run it locally
 

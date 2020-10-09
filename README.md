@@ -15,7 +15,7 @@ This tool aims at helping design teams to speed up the initial desk research pha
 
 ## Use it
 
-https://semantic-hashtag-map.herokuapp.com/
+https://semantic-hashtag-map.herokuapp.com/ (and please be patient with the Heroku free dyno performances)
 
 ## Run it locally
 
